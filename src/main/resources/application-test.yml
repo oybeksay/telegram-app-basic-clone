@@ -1,1 +1,12 @@
-spring.application.name=telegram-clone-backend
+spring:
+  datasource:
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://localhost:5432/telegram_app"
+
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
