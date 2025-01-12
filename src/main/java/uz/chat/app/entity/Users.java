@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import uz.chat.app.domein.Role;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +23,11 @@ public class Users {
 
     private String fullName;
 
+    private String email;
+
     private String phoneNumber;
 
     private String password;
+
+    private Role role = Role.USER; //set default value for users
 }

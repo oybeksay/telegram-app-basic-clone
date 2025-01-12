@@ -5,5 +5,5 @@ import java.io.Serializable;
 /**
  * DTO for {@link uz.chat.app.entity.Users}
  */
-public record UsersDto(String username, String fullName, String phoneNumber, String password) implements Serializable {
+public record UsersDto(String username, String fullName, String email, String phoneNumber, String password) implements Serializable {
 }
