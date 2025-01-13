@@ -3,7 +3,7 @@ package uz.chat.app.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import uz.chat.app.entity.PrivateChat;
-import uz.chat.app.entity.Users;
+import uz.chat.app.exception.ResourceNotFoundException;
 import uz.chat.app.repository.PrivateChatRepository;
 
 import java.util.List;
@@ -26,6 +26,6 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public PrivateChat findById(Long chatId) {
-        return privateChatRepository.findById(chatId).orElseThrow(() -> new RuntimeException("Chat not found"));
+        return privateChatRepository.findById(chatId).orElseThrow(() -> new ResourceNotFoundException("Chat not found"));
     }
 }
