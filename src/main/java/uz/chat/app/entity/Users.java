@@ -1,11 +1,10 @@
 package uz.chat.app.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import uz.chat.app.domein.Role;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -12,15 +12,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic"); // Xabarlarni yuborish uchun
-        config.setApplicationDestinationPrefixes("/app"); // Foydalanuvchi xabar jo'natadigan endpointlar
+        config.enableSimpleBroker("/topic");
+        config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(org.springframework.web.socket.config.annotation.StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat") // WebSocket ulanadigan endpoint
-                .setAllowedOrigins("*") // Har qanday manzildan ulanishga ruxsat
-                .withSockJS(); // Agar WebSocket ishlamasa, SockJS alternativani qo‘llaydi
+        registry.addEndpoint("/chat")
+                .setAllowedOrigins("http://localhost:63342")
+                .withSockJS();
     }
 
 }
