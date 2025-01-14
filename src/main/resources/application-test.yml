@@ -13,14 +13,16 @@ spring:
 
 
   mail:
-    port: 25
     host: sandbox.smtp.mailtrap.io
-    username: 89f66261c8d153
-    password: 132dd5a7858946
+    port: 587
+    username: e94705a0fae17d
+    password: aab9f6ffa4782b
+    properties:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
 
 
-
-telegram:
-  sender:
-    botToken: 7474179192:AAFHZjuFrL-eb2mVRO-nImOZXIxwlPRxlXA
-    chatId: 1808922480
+  freemarker:
+    prefix: classpath:/templates/

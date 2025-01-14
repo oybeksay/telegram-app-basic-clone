@@ -1,7 +1,6 @@
 package uz.chat.app.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import uz.chat.app.dto.MessageDto;
 import uz.chat.app.entity.Message;

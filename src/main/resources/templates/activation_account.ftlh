@@ -43,7 +43,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Assalomu alaykum !</h1>
+    <h1>Assalomu alaykum ! ${username}</h1>
     <p>Sizning ro'yxatdan o'tishingiz muvaffaqiyatli amalga oshirildi. Hisobingizni faollashtirish uchun quyidagi tugmani bosing:</p>
     <a href="${url}" class="btn">Hisobni Faollashtirish</a>
     <p>Agar siz ushbu xatni noto'g'ri olgan bo'lsangiz, uni e'tiborsiz qoldiring.</p>

@@ -1,7 +1,6 @@
 package uz.chat.app.service;
 
 import uz.chat.app.entity.PrivateChat;
-import uz.chat.app.entity.Users;
 
 import java.util.List;
 

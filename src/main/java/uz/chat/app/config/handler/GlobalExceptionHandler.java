@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import uz.chat.app.dto.AppErrorDto;
+import uz.chat.app.exception.InvalidDataException;
 import uz.chat.app.exception.ResourceNotFoundException;
 
 import java.time.LocalDateTime;
@@ -34,4 +35,27 @@ public class GlobalExceptionHandler {
                 .timestamp(LocalDateTime.now()).build();
         return ResponseEntity.status(404).body(err);
     }
+
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<AppErrorDto> handleInvalidDataException(InvalidDataException ex, HttpServletRequest request) {
+        AppErrorDto err = AppErrorDto.builder()
+                .errorCode(400)
+                .errorMessage(ex.getMessage())
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.badRequest().body(err);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<AppErrorDto> handleRuntimeException(RuntimeException ex, HttpServletRequest request) {
+        AppErrorDto err = AppErrorDto.builder()
+                .errorCode(500)
+                .errorMessage(ex.getMessage())
+                .path(request.getRequestURI())
+                .timestamp(LocalDateTime.now())
+                .build();
+        return ResponseEntity.status(500).body(err);
+    }
+
 }
