@@ -4,17 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
-import uz.chat.app.config.security.jwt.JwtUtil;
 import uz.chat.app.dto.UsersDto;
 import uz.chat.app.entity.auth.UserOtp;
 import uz.chat.app.entity.auth.Users;
 import uz.chat.app.service.UserOtpService;
 import uz.chat.app.service.UsersService;
-
-import java.util.Map;
 
 
 @RequiredArgsConstructor

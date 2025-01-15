@@ -20,8 +20,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MailSender {
 
-    private final String baseUrl = "http://localhost:8080/activation/";
-
     private final JavaMailSender javaMailSender;
     private final Configuration configuration;
 
@@ -36,6 +34,7 @@ public class MailSender {
             Template template = configuration.getTemplate("activation_account.ftlh");
             String token = Base64.getEncoder().encodeToString(username.getBytes());
             // set user data
+            String baseUrl = "http://localhost:8080/activation/";
             Map<String, String> objectModel = Map.of("username", username, "url", baseUrl.concat(token));
             String htmlMailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, objectModel);
             mimeMessageHelper.setText(htmlMailContent, true);

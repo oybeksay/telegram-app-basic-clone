@@ -6,9 +6,9 @@ import uz.chat.app.entity.auth.UserOtp;
 import uz.chat.app.entity.auth.Users;
 import uz.chat.app.exception.InvalidDataException;
 import uz.chat.app.repository.UserOtpRepository;
+import uz.chat.app.util.MailSender;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Base64;
 
 @Service
@@ -17,6 +17,7 @@ public class UserOtpServiceImpl implements UserOtpService {
 
     private final UserOtpRepository userOtpRepository;
     private final UsersService usersService;
+    private final MailSender mailSender;
 
     @Override
     public UserOtp createUserOtp(UserOtp userOtp) {
@@ -24,9 +25,48 @@ public class UserOtpServiceImpl implements UserOtpService {
     }
 
     @Override
+    public UserOtp generateUserOtp(String username) {
+        Users user = usersService.findUserByUsername(username);
+        UserOtp userOtp = userOtpRepository.findByUser(user).orElse(null);
+        if (userOtp != null) {
+            //check otp expiry date
+            if (userOtp.getOtpExpiryDate().isBefore(LocalDateTime.now())) {
+                //delete invalid otp
+                userOtpRepository.delete(userOtp);
+                //send activation to user
+                mailSender.sendActivationCode(user.getUsername(),user.getEmail());
+                //create new otp
+                return createUserOtp(
+                        UserOtp.builder()
+                                .user(user)
+                                .otp(generateOtp(username))
+                                .otpExpiryDate(LocalDateTime.now().plusMinutes(15)).build()
+                );
+            }else {
+                //send activation to user
+                mailSender.sendActivationCode(user.getUsername(), user.getEmail());
+                return userOtp;
+            }
+        }
+        else {
+            //send activation to user
+            mailSender.sendActivationCode(user.getUsername(), user.getEmail());
+            return createUserOtp(UserOtp.builder()
+                    .user(user)
+                    .otp(generateOtp(username))
+                    .otpExpiryDate(LocalDateTime.now().plusMinutes(15))
+                    .build());
+        }
+    }
+
+    @Override
+    public String generateOtp(String username) {
+        return Base64.getEncoder().encodeToString(username.getBytes());
+    }
+
+    @Override
     public String checkActivationAccount(String token) {
-        String username = new String(Base64.getDecoder().decode(token));
-        UserOtp userOtp = userOtpRepository.findByOtp(username).orElseThrow(() -> new InvalidDataException("Invalid token"));
+        UserOtp userOtp = userOtpRepository.findByOtp(token).orElseThrow(() -> new InvalidDataException("Invalid token"));
         if (userOtp.getOtpExpiryDate().isBefore(LocalDateTime.now())) {
             throw new InvalidDataException("Invalid token");
         }else {

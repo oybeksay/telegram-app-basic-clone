@@ -11,7 +11,6 @@ import uz.chat.app.service.UserOtpService;
 import uz.chat.app.util.MailSender;
 
 import java.time.LocalDateTime;
-import java.util.Base64;
 
 @Slf4j
 @Component
@@ -30,7 +29,7 @@ public class UserEventListener {
         mailSender.sendActivationCode(user.getUsername(), user.getEmail());
 
         UserOtp userOtp = UserOtp.builder()
-                .otp(user.getUsername())
+                .otp(userOtpService.generateOtp(user.getUsername()))
                 .user(user)
                 .otpExpiryDate(LocalDateTime.now().plusMinutes(15))
                 .build();

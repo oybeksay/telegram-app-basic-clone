@@ -1,14 +1,13 @@
 package uz.chat.app.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.chat.app.config.security.jwt.JwtUtil;
+import uz.chat.app.entity.auth.UserOtp;
 import uz.chat.app.service.UserOtpService;
 
 import java.util.Map;
@@ -29,6 +28,11 @@ public class TokenController {
                 "refreshToken", jwtUtil.generateRefreshToken(username), "accessToken", jwtUtil.generateAccessToken(username)
         );
         return ResponseEntity.ok(tokens);
+    }
+
+    @PostMapping("/sendActivationCode/{username}")
+    public ResponseEntity<UserOtp> sendActivationCode(@PathVariable String username){
+        return ResponseEntity.status(HttpStatus.CREATED).body(userOtpService.generateUserOtp(username));
     }
 
     @GetMapping("/refreshToken")

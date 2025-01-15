@@ -9,6 +9,8 @@ public interface UsersService {
 
     Users findUserById(Long id);
 
+    Users findUserByUsername(String username);
+
     Users updateUser(Long id, UsersDto usersDto);
 
     void updateUserEnabled(Long id, boolean enabled);

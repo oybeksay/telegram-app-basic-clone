@@ -39,6 +39,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Users findUserByUsername(String username) {
+        return usersRepository.findUserByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+
+    @Override
     public Users updateUser(Long id, UsersDto usersDto) {
         return null;
     }
