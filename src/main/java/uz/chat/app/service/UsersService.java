@@ -25,4 +25,6 @@ public interface UsersService {
     Users uploadAvatarByUserId(Long userId, MultipartFile file);
 
     Users makeAdminById(Long userId);
+
+    Users blockUserById(Long userId);
 }

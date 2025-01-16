@@ -99,4 +99,11 @@ public class UsersServiceImpl implements UsersService {
         user.setRole(Role.ADMIN);
         return usersRepository.save(user);
     }
+
+    @Override
+    public Users blockUserById(Long userId) {
+        Users user = findUserById(userId);
+        user.setLocked(false);
+        return usersRepository.save(user);
+    }
 }
