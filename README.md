@@ -80,7 +80,7 @@ This project demonstrates a real-time user status management system using WebSoc
 
 ## Prerequisites
 
-1. **Java 17**
+1. **Java 21**
 2. **PostgreSQL Database**
 3. **Redis Server**
 4. **Maven** (for building the project)
