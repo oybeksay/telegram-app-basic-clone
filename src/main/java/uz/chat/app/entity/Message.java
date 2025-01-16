@@ -1,9 +1,11 @@
 package uz.chat.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -14,6 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +24,8 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "private_chat_id", nullable = false)
+    @ToString.Exclude
+    @JsonIgnore
     private PrivateChat privateChat;
 
     @Column(nullable = false)

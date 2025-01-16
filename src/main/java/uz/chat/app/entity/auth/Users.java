@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import uz.chat.app.domein.Role;
+
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -34,10 +37,16 @@ public class Users {
             message = "Password must be between 8 and 32 characters long and contain both letters and numbers.")
     private String password;
 
+    @ElementCollection
+    private List<String> userAvatars;
+
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(nullable = false)
-    private boolean enabled = false;
+    private boolean locked;
+
+    @Column(nullable = false)
+    private boolean enabled;
 }

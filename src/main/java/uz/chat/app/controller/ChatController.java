@@ -18,10 +18,11 @@ public class ChatController {
     }
 
     @MessageMapping("/sendMessage/{chatId}")
-    @SendTo("/topic/{chatId}")
+    @SendTo("/topic/privateChat/{chatId}")
     public Message sendMessage(@DestinationVariable Long chatId, MessageDto messageDto) {
         return messageService.createMessage(messageDto, chatId);
     }
+
 
 
 }

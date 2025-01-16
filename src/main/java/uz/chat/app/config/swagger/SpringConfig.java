@@ -43,7 +43,7 @@ public class SpringConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("*"); // <- add origin
+                        .allowedOrigins("http://localhost:5173"); // <- add origin
             }
         };
     }

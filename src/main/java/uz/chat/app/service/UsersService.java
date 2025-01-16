@@ -1,7 +1,10 @@
 package uz.chat.app.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import uz.chat.app.dto.UsersDto;
 import uz.chat.app.entity.auth.Users;
+
+import java.util.List;
 
 public interface UsersService {
 
@@ -17,4 +20,9 @@ public interface UsersService {
 
     void deleteUser(Long id);
 
+    List<Users> findUsersByUsernameOrEmail(String query);
+
+    Users uploadAvatarByUserId(Long userId, MultipartFile file);
+
+    Users makeAdminById(Long userId);
 }

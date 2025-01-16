@@ -1,10 +1,13 @@
 package uz.chat.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import uz.chat.app.entity.auth.Users;
 
 import java.time.LocalDateTime;
@@ -18,6 +21,7 @@ import java.util.List;
 @ToString(exclude = {"users","messages"})
 @Entity
 @Table(name = "private_chat")
+@EntityListeners(AuditingEntityListener.class)
 public class PrivateChat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +33,11 @@ public class PrivateChat {
             joinColumns = @JoinColumn(name = "chat_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    @JsonIgnore
+    @JsonManagedReference
     private List<Users> users;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
+    @JsonManagedReference
     private List<Message> messages;
 
     @CreatedDate

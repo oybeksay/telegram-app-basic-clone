@@ -11,6 +11,8 @@ import uz.chat.app.exception.InvalidDataException;
 import uz.chat.app.exception.ResourceNotFoundException;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -18,11 +20,17 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<AppErrorDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
+        List<String> errorMessages = ex.getBindingResult().getFieldErrors().stream()
+                .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+                .collect(Collectors.toList());
+
         AppErrorDto dto = AppErrorDto.builder()
-                .errorMessage(ex.getMessage())
+                .errorMessage(String.join(", ", errorMessages))
                 .path(request.getRequestURI())
                 .errorCode(400)
-                .timestamp(LocalDateTime.now()).build();
+                .timestamp(LocalDateTime.now())
+                .build();
+
         return ResponseEntity.badRequest().body(dto);
     }
 

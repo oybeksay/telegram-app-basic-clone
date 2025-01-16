@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSocket Chat</title>
+
+    <!-- SockJS va Stomp.js kutubxonalarini CDN orqali qo'shish -->
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+</head>
+<body>
+<h1>WebSocket Chat</h1>
+
+<!-- Chat ID va xabar yuborish uchun inputlar -->
+<div>
+    <label for="chatId">Chat ID: </label>
+    <input type="number" id="chatId" placeholder="Enter Chat ID" />
+</div>
+<div>
+    <label for="senderId">Sender ID: </label>
+    <input type="number" id="senderId" placeholder="Enter Sender ID" />
+</div>
+<div>
+    <label for="recipientId">Recipient ID: </label>
+    <input type="number" id="recipientId" placeholder="Enter Recipient ID" />
+</div>
+
+<!-- Xabar yuborish uchun input va tugma -->
+<div>
+    <label for="messageContent">Message Content: </label>
+    <input type="text" id="messageContent" placeholder="Type your message..." />
+    <button id="sendMessageButton">Send Message</button>
+</div>
+
+<h3>Messages:</h3>
+<ul id="messageList"></ul>
+
+<script>
+    // WebSocket va Stomp konfiguratsiyasi
+    const socket = new SockJS('http://localhost:8080/chat');  // WebSocket endpoint
+    const stompClient = Stomp.over(socket); // Stomp orqali ulanish
+
+    // WebSocketga ulanish
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+
+        // Xabarlarni qabul qilish uchun subscribe
+        stompClient.subscribe('/topic/messages', function (message) {
+            console.log('Received: ', message.body);
+            const messageList = document.getElementById("messageList");
+            const li = document.createElement("li");
+            li.textContent = message.body;
+            messageList.appendChild(li);
+        });
+    });
+
+    // Xabar yuborish funksiyasi
+    function sendMessage() {
+        const senderId = document.getElementById("senderId").value;
+        const recipientId = document.getElementById("recipientId").value;
+        const content = document.getElementById("messageContent").value;
+        const chatId = document.getElementById("chatId").value;
+
+        stompClient.send("/app/sendMessage/" + chatId, {}, JSON.stringify({
+            senderId: senderId,
+            recipientId: recipientId,
+            content: content
+        }));
+
+        // Inputlarni tozalash
+        document.getElementById("messageContent").value = "";
+    }
+
+    // Xabar yuborish tugmasi
+    document.getElementById("sendMessageButton").addEventListener("click", sendMessage);
+
+</script>
+
+</body>
+</html>
