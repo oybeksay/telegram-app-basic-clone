@@ -17,7 +17,7 @@ This project demonstrates a real-time user status management system using WebSoc
 
 ## Tech Stack
 
-- **Java 17**
+- **Java 21**
 - **Spring Boot**
   - `spring-boot-starter-web`
   - `spring-boot-starter-data-jpa`
