@@ -15,8 +15,8 @@ spring:
   mail:
     host: sandbox.smtp.mailtrap.io
     port: 587
-    username: e94705a0fae17d
-    password: aab9f6ffa4782b
+    username: smtp_user
+    password: smtp_pass
     properties:
       smtp:
         auth: true
@@ -37,5 +37,5 @@ server:
 
 
 telegram:
-  channelId: -1002167921553
-  botToken: 6896117366:AAGfVfyiWJ0_g4JLlayJHkFO6TTEUtQnQ-o
+  channelId: telegram_channel_id
+  botToken: telegram_bot_token
