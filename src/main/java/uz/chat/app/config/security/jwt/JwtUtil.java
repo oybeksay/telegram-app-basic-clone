@@ -6,6 +6,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import uz.chat.app.exception.InvalidDataException;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class JwtUtil {
         byte[] bytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(bytes);
     }
+
 
     public String generateRefreshToken(String username) {
         return Jwts.builder()
@@ -43,7 +45,7 @@ public class JwtUtil {
         if (validateToken(refreshToken)) {
             return generateAccessToken(getUsernameFromToken(refreshToken));
         }else {
-            throw new RuntimeException("refresh token fail");
+            throw new InvalidDataException("refresh token fail");
         }
     }
 
